@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1000330229092",
+    "project_id": "cooffeshop",
+    "storage_bucket": "cooffeshop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000330229092:android:fcdf4bd2e79afd1a827671",
+        "android_client_info": {
+          "package_name": "com.mohamedmeleklouati_g5"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1zG6WjwsrhblEjg1rFFWWcKd_dbCSH_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
