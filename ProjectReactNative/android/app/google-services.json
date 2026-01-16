@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1000330229092",
-    "project_id": "cooffeshop",
-    "storage_bucket": "cooffeshop.firebasestorage.app"
+    "project_number": "612010412378",
+    "project_id": "projectcoffe-a283c",
+    "storage_bucket": "projectcoffe-a283c.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1000330229092:android:fcdf4bd2e79afd1a827671",
+        "mobilesdk_app_id": "1:612010412378:android:29065605e5185133bd4b63",
         "android_client_info": {
           "package_name": "com.mohamedelloumi_g2"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD1zG6WjwsrhblEjg1rFFWWcKd_dbCSH_I"
+          "current_key": "AIzaSyAj7RuLpMkO7SvXWRaNP9Fcwf7yL4CUUnY"
         }
       ],
       "services": {

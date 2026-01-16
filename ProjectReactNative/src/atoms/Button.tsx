@@ -1,14 +1,16 @@
-import { StyleProp, TouchableOpacity, ViewStyle, Text } from "react-native";
+import { StyleProp, TouchableOpacity, ViewStyle, Text, TextStyle } from "react-native";
 
 interface ButtonProps {
   title: string;
   style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
   onPress?: () => void;
 }
 
 function Button(props: ButtonProps) {
   return (
     <TouchableOpacity
+      activeOpacity={0.8}
       style={[
         {
           flexDirection: "row",
@@ -24,7 +26,9 @@ function Button(props: ButtonProps) {
       ]}
       onPress={props.onPress}
     >
-      <Text>{props.title}</Text>
+      <Text style={[{ color: "#FFFFFF", fontWeight: "600", fontSize: 16 }, props.textStyle]}>
+        {props.title}
+      </Text>
     </TouchableOpacity>
   );
 }

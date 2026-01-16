@@ -1,6 +1,6 @@
-import { StyleProp, TextInput, TextStyle } from "react-native";
+import { StyleProp, TextInput, TextStyle, TextInputProps } from "react-native";
 
-interface InputProps {
+interface InputProps extends TextInputProps {
   placeholder: string;
   value: string;
   onChangeText: (e: string) => void;
@@ -8,6 +8,7 @@ interface InputProps {
 }
 
 function Input(props: InputProps) {
+  const { style, ...otherProps } = props;
   return (
     <TextInput
       style={[
@@ -18,13 +19,10 @@ function Input(props: InputProps) {
           borderWidth: 2,
           borderRadius: 8,
           backgroundColor: "#FFF",
-         
         },
-        props.style, // applique ton style personnalisé après
+        style,
       ]}
-      placeholder={props.placeholder}
-      value={props.value}
-      onChangeText={props.onChangeText}
+      {...otherProps}
     />
   );
 }
