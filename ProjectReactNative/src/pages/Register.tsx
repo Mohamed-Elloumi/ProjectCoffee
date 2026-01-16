@@ -49,7 +49,6 @@ const RegisterScreen = () => {
     try {
       await auth().createUserWithEmailAndPassword(email, password);
       Alert.alert("Succès", "Compte créé avec succès");
-      navigation.navigate("Home");
     } catch (error: any) {
       Alert.alert("Erreur", error.message);
     }

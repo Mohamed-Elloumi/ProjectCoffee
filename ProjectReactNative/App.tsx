@@ -1,3 +1,4 @@
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppTemplate from './src/templates/AppTemplate';
 
@@ -10,9 +11,44 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import ProductDetailScreen from './src/pages/ProductDetail';
 import RegisterScreen from './src/pages/Register';
-import { AuthProvider } from './src/contexts/AuthContext';
+import { AuthProvider, useAuth } from './src/contexts/AuthContext';
+import { View, ActivityIndicator } from 'react-native';
 
 const Stack = createNativeStackNavigator();
+
+function RootNavigator() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00512C' }}>
+        <ActivityIndicator size="large" color="#FFFFFF" />
+      </View>
+    );
+  }
+
+  return (
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+    >
+      {!isAuthenticated ? (
+        // Public Stack
+        <>
+          <Stack.Screen name="Splashscreen" component={Splashscreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+        </>
+      ) : (
+        // Private Stack
+        <>
+          <Stack.Screen name="Tabs" component={Tabs} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+        </>
+      )}
+    </Stack.Navigator>
+  );
+}
 
 function App() {
   return (
@@ -20,17 +56,7 @@ function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <AppTemplate>
-            <Stack.Navigator
-              initialRouteName="Splashscreen"
-              screenOptions={{ headerShown: false }}
-            >
-              <Stack.Screen name="Splashscreen" component={Splashscreen} />
-              <Stack.Screen name="Login" component={LoginScreen} />
-              <Stack.Screen name="Register" component={RegisterScreen} />
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="Tabs" component={Tabs} />
-              <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
-            </Stack.Navigator>
+            <RootNavigator />
           </AppTemplate>
         </NavigationContainer>
       </SafeAreaProvider>

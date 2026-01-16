@@ -3,7 +3,7 @@ import { BackgroundSS, SplashS } from '../assets/images'
 import { RootStackParamList } from '../navigations/types'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 type SplashscreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Splashscreen'>
@@ -12,17 +12,10 @@ const Splashscreen = () => {
     const navigation = useNavigation<SplashscreenNavigationProp>()
     const { isAuthenticated } = useAuth()
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (isAuthenticated) {
-                ; (navigation as any).replace('Tabs')
-            } else {
-                ; (navigation as any).replace('Login')
-            }
-        }, 3000)
-
-        return () => clearTimeout(timer)
-    }, [navigation, isAuthenticated])
+    // Since this component is now inside the Public Stack of App.tsx,
+    // it will only be rendered when isAuthenticated is false.
+    // If isAuthenticated becomes true, React Navigation will automatically
+    // switch to the Private Stack (Tabs).
 
     return (
         <View style={{ flex: 1 }}>
@@ -65,11 +58,8 @@ const Splashscreen = () => {
                 <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={() => {
-                        if (isAuthenticated) {
-                            ; (navigation as any).replace('Tabs')
-                        } else {
-                            ; (navigation as any).replace('Login')
-                        }
+                        // Navigate to Login since we are in the Public Stack
+                        navigation.navigate('Login')
                     }}
                     style={{
                         backgroundColor: '#00512C',

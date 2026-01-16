@@ -54,7 +54,6 @@ const LoginScreen = () => {
 
     try {
       await auth().signInWithEmailAndPassword(email, password);
-      navigation.navigate("Home");
     } catch (error: any) {
       if (error.code === "auth/user-not-found") {
         Alert.alert("Erreur", "Utilisateur non trouvé");
