@@ -11,6 +11,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { getCart, incrementQty, decrementQty } from "../services/cartService";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import { UPLOADS_URL } from "../config";
 
 export default function CartScreen() {
   const [items, setItems] = useState([]);
@@ -34,14 +35,26 @@ export default function CartScreen() {
   const discount = subtotal * 0.25;
   const total = subtotal - discount;
 
+  const getImageSource = (image: any) => {
+    if (typeof image === 'string') {
+      if (image.includes('http')) return { uri: image };
+      return { uri: `${UPLOADS_URL}/${image}` };
+    }
+    return image;
+  };
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={false}
+    >
       <Text style={styles.title}>Cart</Text>
 
       {items.map((item: any) => (
         <View key={item.title} style={styles.card}>
           {/* Product Image */}
-          <Image source={item.image} style={styles.image} />
+          <Image source={getImageSource(item.image)} style={styles.image} />
 
           <View style={{ flex: 1 }}>
             {/* Title & Heart */}
@@ -94,13 +107,13 @@ export default function CartScreen() {
       {/* PAYMENT SECTION */}
       <View style={{ marginTop: 10 }}>
         <Text style={styles.paymentItem}>
-          Subtotal  <Text style={styles.priceVal}>Rp {subtotal.toLocaleString()}</Text>
+          Subtotal  <Text style={styles.priceVal}>TND {subtotal.toLocaleString()}</Text>
         </Text>
         <Text style={styles.paymentItem}>
-          Discount  <Text style={styles.priceVal}>Rp {discount.toLocaleString()}</Text>
+          Discount  <Text style={styles.priceVal}>TND {discount.toLocaleString()}</Text>
         </Text>
         <Text style={[styles.paymentItem, styles.total]}>
-          Total  <Text style={styles.totalVal}>Rp {total.toLocaleString()}</Text>
+          Total  <Text style={styles.totalVal}>TND {total.toLocaleString()}</Text>
         </Text>
 
         <Text style={styles.paymentTitle}>Payment</Text>
@@ -119,7 +132,8 @@ export default function CartScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, backgroundColor: "#FFF", flex: 1 },
+  container: { backgroundColor: "#FFF", flex: 1 },
+  scrollContent: { padding: 20, paddingBottom: 100 },
   title: { fontSize: 24, fontWeight: "700", marginBottom: 20 },
   card: {
     flexDirection: "row",

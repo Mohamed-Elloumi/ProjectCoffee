@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { addFavorite, removeFavorite, isFavorite } from "../services/favoritesService";
 import { addToCart } from "../services/cartService";
+import { UPLOADS_URL } from "../config";
 
 
 export default function ProductDetailScreen() {
@@ -37,11 +38,19 @@ export default function ProductDetailScreen() {
     }
   };
 
+  const getImageSource = () => {
+    if (typeof image === 'string') {
+      if (image.includes('http')) return { uri: image };
+      return { uri: `${UPLOADS_URL}/${image}` };
+    }
+    return image;
+  };
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* IMAGE */}
       <View style={styles.imageWrapper}>
-        <Image source={image} style={styles.image} />
+        <Image source={getImageSource()} style={styles.image} />
 
         {/* BACK BUTTON */}
         <TouchableOpacity
@@ -110,23 +119,23 @@ export default function ProductDetailScreen() {
         </Text>
 
         {/* ADD TO CART */}
-     <TouchableOpacity
-  style={styles.addCart}
-  onPress={() =>
-    addToCart({
-      title,
-      subtitle,
-      price,
-      image,
-      cupSize,
-      sugar,
-    })
-  }
->
-  <Text style={styles.addText}>Add to cart</Text>
-  <View style={styles.divider} />
-  <Text style={styles.addText}>{price}</Text>
-</TouchableOpacity>
+        <TouchableOpacity
+          style={styles.addCart}
+          onPress={() =>
+            addToCart({
+              title,
+              subtitle,
+              price,
+              image,
+              cupSize,
+              sugar,
+            })
+          }
+        >
+          <Text style={styles.addText}>Add to cart</Text>
+          <View style={styles.divider} />
+          <Text style={styles.addText}>{price}</Text>
+        </TouchableOpacity>
 
       </View>
     </ScrollView>

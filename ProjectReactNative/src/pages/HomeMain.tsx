@@ -1,7 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
+  View,
 } from "react-native";
 
 import ScreenTemplate from "../templates/ScreenTemplate";
@@ -9,82 +11,58 @@ import Header from "../organisms/Header";
 import SearchBar from "../organisms/SearchBar";
 import CategoryList from "../organisms/CategoryList";
 import ProductList from "../organisms/ProductList";
-
-/* =======================
-   DATA
-======================= */
-
-const categories = [
-  "All",
-  "Cappuccino",
-  "Coffee",
-  "Espresso",
-  "Latte",
-  "Mocha",
-];
-
-const productsData = [
-  {
-    id: "1",
-    title: "Cappuccino",
-    subtitle: "With Sugar",
-    price: "Rp 50.000",
-    image: require("../assets/images/coffee1.png"),
-    category: "Cappuccino",
-  },
-  {
-    id: "2",
-    title: "Coffee",
-    subtitle: "With Sugar",
-    price: "Rp 50.000",
-    image: require("../assets/images/coffee2.png"),
-    category: "Coffee",
-  },
-  {
-    id: "3",
-    title: "Espresso",
-    subtitle: "With Sugar",
-    price: "Rp 50.000",
-    image: require("../assets/images/coffee3.png"),
-    category: "Espresso",
-  },
-  {
-    id: "4",
-    title: "Latte",
-    subtitle: "With Sugar",
-    price: "Rp 50.000",
-    image: require("../assets/images/coffee4.png"),
-    category: "Latte",
-  },
-  {
-    id: "5",
-    title: "Mocha",
-    subtitle: "With Sugar",
-    price: "Rp 50.000",
-    image: require("../assets/images/coffee5.png"),
-    category: "Mocha",
-  },
-];
+import { API_URL } from "../config";
 
 /* =======================
    SCREEN
 ======================= */
 
 function HomeMainScreen() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [searchText, setSearchText] = useState<string>("");
 
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${API_URL}/products`);
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Derive categories from product data
+  const categories = useMemo(() => {
+    const cats = ["All", ...new Set(products.map(p => p.category))];
+    return cats;
+  }, [products]);
+
   /* ICON LOGIC */
   const getCategoryIcon = (category: string, active: boolean) => {
+    const iconName = active ? 'cafe' : 'cafe-outline';
     if (category === "All") return active ? "apps" : "apps-outline";
-    if (category === "Espresso") return active ? "flash" : "flash-outline";
-    if (category === "Mocha") return active ? "leaf" : "leaf-outline";
-    return active ? "cafe" : "cafe-outline";
+    if (category.includes("Petit Déjeuner")) return active ? "restaurant" : "restaurant-outline";
+    if (category.includes("Cafés")) return active ? "cafe" : "cafe-outline";
+    if (category.includes("Jus")) return active ? "water" : "water-outline";
+    if (category.includes("Smoothies")) return active ? "ice-cream" : "ice-cream-outline";
+    if (category.includes("Crêpes")) return active ? "pizza" : "pizza-outline";
+    if (category.includes("Salée")) return active ? "fast-food" : "fast-food-outline";
+    if (category.includes("Chicha")) return active ? "flame" : "flame-outline";
+    return iconName;
   };
 
   /* FILTER (CATEGORY + SEARCH) */
   const filteredProducts = useMemo(() => {
-    return productsData.filter((product) => {
+    return products.filter((product) => {
       const matchCategory =
         activeCategory === "All" ||
         product.category === activeCategory;
@@ -95,24 +73,20 @@ function HomeMainScreen() {
 
       return matchCategory && matchSearch;
     });
-  }, [activeCategory, searchText]);
+  }, [activeCategory, searchText, products]);
 
-  const specialOffers = [
-    {
-      id: "special-1",
-      title: "Coffee",
-      subtitle: "With Sugar",
-      price: "Rp 50.000",
-      image: require("../assets/images/coffee4.png"),
-    },
-    {
-      id: "special-2",
-      title: "Cappuccino",
-      subtitle: "With Sugar",
-      price: "Rp 50.000",
-      image: require("../assets/images/coffee5.png"),
-    },
-  ];
+  const specialOffers = useMemo(() => {
+    // Products with isSpecial or in Breakfast category
+    return products.filter(p => p.isSpecial === 1 || p.category === "Petit Déjeuner");
+  }, [products]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#00512C" />
+      </View>
+    );
+  }
 
   return (
     <ScreenTemplate>
@@ -133,14 +107,16 @@ function HomeMainScreen() {
 
         <ProductList
           products={filteredProducts}
-          emptyMessage="Aucun produit trouvé"
+          emptyMessage="No items found"
         />
 
-        <ProductList
-          products={specialOffers}
-          large={true}
-          sectionTitle="Special Offer"
-        />
+        {specialOffers.length > 0 && activeCategory === "All" && (
+          <ProductList
+            products={specialOffers.slice(0, 4)}
+            large={true}
+            sectionTitle="Special Offers / Breakfast"
+          />
+        )}
       </ScrollView>
     </ScreenTemplate>
   );
@@ -148,3 +124,11 @@ function HomeMainScreen() {
 
 export default HomeMainScreen;
 
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff'
+  }
+});
