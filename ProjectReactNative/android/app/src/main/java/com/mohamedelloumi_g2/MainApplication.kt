@@ -1,4 +1,4 @@
-package com.mohamedmeleklouati_g5
+package com.mohamedelloumi_g2
 
 import android.app.Application
 import com.facebook.react.PackageList

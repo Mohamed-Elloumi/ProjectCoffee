@@ -10,7 +10,7 @@ import { launchImageLibrary } from "react-native-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ScreenTemplate from "../templates/ScreenTemplate";
-import Button from "../components/Button";
+import Button from "../atoms/Button";
 import auth from "@react-native-firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
@@ -23,9 +23,9 @@ function ProfileScreen() {
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
 
   // Données profil (exemple statique / prêt à être branché API)
-  const [firstName] = useState("melek");
-  const [lastName] = useState("Louati");
-  const [phone] = useState("+216 25165050");
+  const [firstName] = useState("elloumi");
+  const [lastName] = useState("Elloumi");
+  const [phone] = useState("+216 58125240");
 
   useEffect(() => {
     loadAvatar();
@@ -188,3 +188,4 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
+

@@ -32,8 +32,7 @@ export default function LoadingScreen({ onLoaded }: LoadingScreenProps) {
 
   return (
     <View style={styles.container}>
-      {/* CHEMIN RELATIF CORRECT */}
-      <Image source={require('C:/Users/user/Desktop/DSCross/MohamedMelekLouati_G5/src/assets/images/logo.png')} style={styles.logo} />
+      <Image source={require('../assets/images/play_store_512.png')} style={styles.logo} />
       <Animated.View style={[styles.circle, { transform: [{ rotate: rotation }] }]} />
     </View>
   );
@@ -61,3 +60,4 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
+

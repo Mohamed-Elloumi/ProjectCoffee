@@ -187,3 +187,4 @@ const styles = StyleSheet.create({
   },
   buyText: { color: "#FFF", fontSize: 18, fontWeight: "700" },
 });
+

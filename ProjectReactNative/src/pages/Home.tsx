@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from "react-native";
 import ScreenTemplate from "../templates/ScreenTemplate";
-import Button from "../components/Button";
+import Button from "../atoms/Button";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../navigations/types";
 
@@ -16,7 +16,7 @@ const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <ScreenTemplate>
       <ImageBackground
-        source={require("../assets/images/backGround.png")}
+        source={require("../assets/images/backgroundss.png")}
         style={styles.background}
         resizeMode="cover"
       >
@@ -30,7 +30,7 @@ const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
           {/* Texte principal */}
           <Text style={styles.title}>
-            Coffee so good,{'\n'}
+            Coffee so good{'\n'}
             your taste buds{'\n'}
             will love it
           </Text>
@@ -94,3 +94,4 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
+

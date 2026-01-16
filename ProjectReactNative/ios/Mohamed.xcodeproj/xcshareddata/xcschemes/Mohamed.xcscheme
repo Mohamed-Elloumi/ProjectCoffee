@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "MohamedMelekLouati_G5.app"
-               BlueprintName = "MohamedMelekLouati_G5"
-               ReferencedContainer = "container:MohamedMelekLouati_G5.xcodeproj">
+               BuildableName = "MohamedElloumi_G2.app"
+               BlueprintName = "MohamedElloumi_G2"
+               ReferencedContainer = "container:MohamedElloumi_G2.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "MohamedMelekLouati_G5Tests.xctest"
-               BlueprintName = "MohamedMelekLouati_G5Tests"
-               ReferencedContainer = "container:MohamedMelekLouati_G5.xcodeproj">
+               BuildableName = "MohamedElloumi_G2Tests.xctest"
+               BlueprintName = "MohamedElloumi_G2Tests"
+               ReferencedContainer = "container:MohamedElloumi_G2.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "MohamedMelekLouati_G5.app"
-            BlueprintName = "MohamedMelekLouati_G5"
-            ReferencedContainer = "container:MohamedMelekLouati_G5.xcodeproj">
+            BuildableName = "MohamedElloumi_G2.app"
+            BlueprintName = "MohamedElloumi_G2"
+            ReferencedContainer = "container:MohamedElloumi_G2.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "MohamedMelekLouati_G5.app"
-            BlueprintName = "MohamedMelekLouati_G5"
-            ReferencedContainer = "container:MohamedMelekLouati_G5.xcodeproj">
+            BuildableName = "MohamedElloumi_G2.app"
+            BlueprintName = "MohamedElloumi_G2"
+            ReferencedContainer = "container:MohamedElloumi_G2.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

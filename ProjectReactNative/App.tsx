@@ -1,16 +1,16 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppTemplate from './src/templates/AppTemplate';
 
-import LoginScreen from './src/screens/Login';
-import HomeScreen from './src/screens/Home';
+import LoginScreen from './src/pages/Login';
+import HomeScreen from './src/pages/Home';
 import Tabs from './src/navigations/Tabs';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import ProductDetailScreen from './src/screens/ProductDetail';
-import RegisterScreen from './src/screens/Register';
+import ProductDetailScreen from './src/pages/ProductDetail';
+import RegisterScreen from './src/pages/Register';
 import { useState } from 'react';
-import LoadingScreen from './src/screens/Loading';
+import LoadingScreen from './src/pages/Loading';
 
 const Stack = createNativeStackNavigator();
 

@@ -30,3 +30,4 @@ function Input(props: InputProps) {
 }
 
 export default Input;
+

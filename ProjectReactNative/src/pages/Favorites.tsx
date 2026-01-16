@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../molecules/ProductCard";
 import { getFavorites } from "../services/favoritesService";
 
 export default function FavoritesScreen() {
@@ -40,3 +40,4 @@ const styles = StyleSheet.create({
   title: { fontSize: 22, fontWeight: "700", marginBottom: 18 },
   empty: { marginTop: 40, textAlign: "center", color: "#777" },
 });
+

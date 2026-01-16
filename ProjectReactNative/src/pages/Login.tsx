@@ -4,8 +4,8 @@ import auth from "@react-native-firebase/auth";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 import ScreenTemplate from "../templates/ScreenTemplate";
-import Input from "../components/Input";
-import Button from "../components/Button";
+import Input from "../atoms/Input";
+import Button from "../atoms/Button";
 import { RootStackParamList } from "../navigations/types";
 
 const LoginScreen = () => {
@@ -149,3 +149,4 @@ const styles = StyleSheet.create({
 
 
 export default LoginScreen;
+
