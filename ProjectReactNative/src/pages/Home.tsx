@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
     paddingBottom: 48,
   },
   coffeeImage: {
-    width: 300,        // 👈 PLUS GRAND
-    height: 300,       // 👈 PLUS GRAND
+    width: 300,        
+    height: 300,       
     marginBottom: 40,
   },
   title: {
-    fontSize: 32,      // 👈 TEXTE PLUS GRAND
+    fontSize: 32,
     fontWeight: "700",
     color: "#FFFFFF",
     textAlign: "center",

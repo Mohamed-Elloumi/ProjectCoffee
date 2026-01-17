@@ -325,6 +325,49 @@
             gap: 12px;
             margin-top: 2rem;
         }
+
+        /* Pagination Styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .page-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            color: var(--text-main);
+        }
+
+        .page-link:hover {
+            background: var(--bg);
+            border-color: var(--primary);
+        }
+
+        .page-link.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .page-link.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
     </style>
 </head>
 
@@ -333,7 +376,7 @@
     <aside>
         <div class="logo">
             <i class="fas fa-coffee"></i>
-            BrewAdmin
+            MidwayAdmin
         </div>
         <nav>
             <ul>
@@ -385,7 +428,21 @@
         <div class="data-card">
             <div class="table-header">
                 <h3>Product Inventory</h3>
-                <button class="btn btn-add" onclick="toggleModal(true)"><i class="fas fa-plus"></i> Add Product</button>
+                <div style="display: flex; gap: 1rem;">
+                    <select id="filterCategory" onchange="applyFilter()" style="width: auto; min-width: 200px;">
+                        <option value="All">All Categories</option>
+                        <option value="Petit Déjeuner">Petit Déjeuner</option>
+                        <option value="Viennoiserie">Viennoiserie</option>
+                        <option value="Cafés & Boissons Chaudes">Cafés & Boissons Chaudes</option>
+                        <option value="Jus & Boissons Fraîches">Jus & Boissons Fraîches</option>
+                        <option value="Smoothies">Smoothies</option>
+                        <option value="Crêpes Sucrées">Crêpes Sucrées</option>
+                        <option value="Cuisine Salée">Cuisine Salée</option>
+                        <option value="Chicha">Chicha</option>
+                    </select>
+                    <button class="btn btn-add" onclick="toggleModal(true)"><i class="fas fa-plus"></i> Add
+                        Product</button>
+                </div>
             </div>
 
             <table id="productTable">
@@ -403,6 +460,10 @@
                     <!-- Data here -->
                 </tbody>
             </table>
+
+            <div class="pagination" id="pagination">
+                <!-- Pagination buttons here -->
+            </div>
         </div>
     </main>
 
@@ -464,16 +525,33 @@
         const API_URL = '/api/products';
         const tableBody = document.getElementById('tableBody');
         const productForm = document.getElementById('productForm');
+        const paginationContainer = document.getElementById('pagination');
+        const filterCategory = document.getElementById('filterCategory');
+
+        let allProducts = [];
+        let filteredProducts = [];
+        let currentPage = 1;
+        const rowsPerPage = 8;
 
         async function loadData() {
             const res = await fetch(API_URL);
-            const data = await res.json();
-            renderTable(data);
-            updateStats(data);
+            allProducts = await res.json();
+            updateStats(allProducts);
+            applyFilter();
         }
 
-        function renderTable(data) {
-            tableBody.innerHTML = data.map(p => `
+        function applyFilter() {
+            const cat = filterCategory.value;
+            if (cat === 'All') {
+                filteredProducts = [...allProducts];
+            } else {
+                filteredProducts = allProducts.filter(p => p.category === cat);
+            }
+            renderPage(1);
+        }
+
+        function renderTable(dataSlice) {
+            tableBody.innerHTML = dataSlice.map(p => `
             <tr>
                 <td>
                     <div style="display: flex; align-items: center; gap: 12px;">
@@ -494,6 +572,46 @@
                 </td>
             </tr>
         `).join('');
+        }
+
+        function renderPage(page) {
+            currentPage = page;
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const slicedData = filteredProducts.slice(start, end);
+
+            renderTable(slicedData);
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+            let html = '';
+
+            // Previous button
+            html += `<button class="page-link ${currentPage === 1 ? 'disabled' : ''}" onclick="renderPage(${currentPage - 1})">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>`;
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `<button class="page-link ${i === currentPage ? 'active' : ''}" onclick="renderPage(${i})">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span style="padding: 0 5px;">...</span>`;
+                }
+            }
+
+            // Next button
+            html += `<button class="page-link ${currentPage === totalPages ? 'disabled' : ''}" onclick="renderPage(${currentPage + 1})">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>`;
+
+            paginationContainer.innerHTML = html;
         }
 
         function updateStats(data) {
@@ -541,6 +659,11 @@
         async function deleteProduct(id) {
             if (confirm('Are you sure?')) {
                 await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                // Check if the current page would be empty after deletion
+                const remainingInTotal = allProducts.length - 1;
+                const maxPages = Math.ceil(remainingInTotal / rowsPerPage);
+                if (currentPage > maxPages && maxPages > 0) currentPage = maxPages;
+
                 loadData();
             }
         }

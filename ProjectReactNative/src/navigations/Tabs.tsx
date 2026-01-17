@@ -21,10 +21,11 @@ export default function Tabs() {
           backgroundColor: "#FFF",
           position: "absolute",
           borderTopWidth: 0,
-          elevation: 10, // Android shadow
+          elevation: 10,
         },
         tabBarIcon: ({ focused }) => {
-          let icon: string = "home-outline"; // valeur par défaut
+          let icon: string = "home-outline"; 
+          
 
           if (route.name === "HomeMain") {
             icon = focused ? "home" : "home-outline";
