@@ -1,0 +1,11 @@
+node_modules
+ProjectReactNative/node_modules
+ProjectReactNative/android
+ProjectReactNative/ios
+ProjectReactNative/build
+server/node_modules
+.git
+.expo
+.firebase
+server/models/coffee.db
+firebase-debug.log

@@ -22,6 +22,7 @@ export const addToCart = async (item: any) => {
 };
 
 export const incrementQty = async (title: string) => {
+  
   const cart = await getCart();
   const index = cart.findIndex((p: any) => p.title === title);
 

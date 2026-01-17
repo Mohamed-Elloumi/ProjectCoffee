@@ -1,0 +1,41 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "server/index.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "server/public/**",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "server/index.js"
+        },
+        {
+            "src": "/uploads/(.*)",
+            "dest": "server/public/uploads/$1"
+        },
+        {
+            "src": "/admin",
+            "status": 301,
+            "headers": {
+                "Location": "/admin.html"
+            }
+        },
+        {
+            "src": "/",
+            "status": 301,
+            "headers": {
+                "Location": "/admin.html"
+            }
+        },
+        {
+            "src": "/(.*)",
+            "dest": "server/public/$1"
+        }
+    ]
+}

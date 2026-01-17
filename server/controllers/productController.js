@@ -1,69 +1,90 @@
-const db = require('../models/database');
+const supabase = require('../models/supabase');
 
-exports.getAllProducts = (req, res) => {
-    db.all("SELECT * FROM products", [], (err, rows) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(rows);
-    });
+exports.getAllProducts = async (req, res) => {
+    const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('id', { ascending: true });
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+    res.json(data);
 };
 
-exports.getProductById = (req, res) => {
+exports.getProductById = async (req, res) => {
     const id = req.params.id;
-    db.get("SELECT * FROM products WHERE id = ?", [id], (err, row) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        if (!row) {
-            return res.status(404).json({ error: "Product not found" });
-        }
-        res.json(row);
-    });
+    const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (error) {
+        return res.status(error.code === 'PGRST116' ? 404 : 500).json({ error: error.message });
+    }
+    res.json(data);
 };
 
-exports.createProduct = (req, res) => {
-    const { title, subtitle, price, category, isSpecial } = req.body;
-    const image = req.file ? req.file.filename : null;
+exports.createProduct = async (req, res) => {
+    const { title, subtitle, price, category, isSpecial, imageUrl } = req.body;
 
-    const query = `INSERT INTO products (title, subtitle, price, category, image, isSpecial) VALUES (?, ?, ?, ?, ?, ?)`;
-    db.run(query, [title, subtitle, price, category, image, isSpecial || 0], function (err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.status(201).json({ id: this.lastID, message: "Product created successfully" });
-    });
+    // Use imageUrl if provided, otherwise check if a file was uploaded (local test only)
+    let image = imageUrl || (req.file ? req.file.filename : null);
+
+    const { data, error } = await supabase
+        .from('products')
+        .insert([
+            { title, subtitle, price, category, image, isspecial: isSpecial === '1' || isSpecial === 1 }
+        ])
+        .select();
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+    res.status(201).json({ id: data[0].id, message: "Product created successfully" });
 };
 
-exports.updateProduct = (req, res) => {
+
+exports.updateProduct = async (req, res) => {
     const id = req.params.id;
-    const { title, subtitle, price, category, isSpecial } = req.body;
+    const { title, subtitle, price, category, isSpecial, imageUrl } = req.body;
 
-    let query = `UPDATE products SET title = ?, subtitle = ?, price = ?, category = ?, isSpecial = ?`;
-    let params = [title, subtitle, price, category, isSpecial];
+    const updateData = {
+        title,
+        subtitle,
+        price,
+        category,
+        isspecial: isSpecial === '1' || isSpecial === 1
+    };
 
-    if (req.file) {
-        query += `, image = ?`;
-        params.push(req.file.filename);
+    if (imageUrl) {
+        updateData.image = imageUrl;
+    } else if (req.file) {
+        updateData.image = req.file.filename;
     }
 
-    query += ` WHERE id = ?`;
-    params.push(id);
 
-    db.run(query, params, function (err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ message: "Product updated successfully" });
-    });
+    const { error } = await supabase
+        .from('products')
+        .update(updateData)
+        .eq('id', id);
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+    res.json({ message: "Product updated successfully" });
 };
 
-exports.deleteProduct = (req, res) => {
+exports.deleteProduct = async (req, res) => {
     const id = req.params.id;
-    db.run("DELETE FROM products WHERE id = ?", [id], function (err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ message: "Product deleted successfully" });
-    });
+    const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+    res.json({ message: "Product deleted successfully" });
 };
