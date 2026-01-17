@@ -122,6 +122,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
                         if (name.includes('mousse au chocolat')) return "https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?q=80&w=1000&auto=format&fit=crop";
                         if (name.includes('fondant')) return "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?q=80&w=1000&auto=format&fit=crop";
                         if (name.includes('cheese cake')) return "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=1000&auto=format&fit=crop";
+                        if (name.includes('gâteaux')) return "gateau.jpg";
 
                         // Coffee Varieties
                         if (name.includes('cappuccino')) return "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=1000&auto=format&fit=crop";
@@ -138,17 +139,21 @@ const db = new sqlite3.Database(dbPath, (err) => {
                         if (name.includes('mangue')) return "https://images.unsplash.com/photo-1623065422902-30a2ad44924b?q=80&w=1000&auto=format&fit=crop";
 
                         // Smoothies
-                        if (name.includes('pina colada')) return "https://images.unsplash.com/photo-1582200388910-c081e6e001ac?q=80&w=1000&auto=format&fit=crop";
+                        if (name.includes('pina colada')) return "pina colada.jpg";
                         if (name.includes('fruits rouges') || name.includes('ruby red')) return "https://images.unsplash.com/photo-1553530666-ba11a7da3888?q=80&w=1000&auto=format&fit=crop";
 
                         // Food
                         if (name.includes('carbonara')) return "https://images.unsplash.com/photo-1612874742237-6526221588e3?q=80&w=1000&auto=format&fit=crop";
                         if (name.includes('pâtes') || name.includes('bolognaise')) return "https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1000&auto=format&fit=crop";
-                        if (name.includes('crêpes sucrées') || name.includes('nutella')) return "https://images.unsplash.com/photo-1519676867240-f031ee04a703?q=80&w=1000&auto=format&fit=crop";
+                        if (name.includes('spécial midway')) return "crepes special midway.jpg";
+                        if (name.includes('nutella & fruits secs')) return "crepes fruits.jpg";
+                        if (name.includes('nutella')) return "crepes banane.jpg";
+                        if (name.includes('crêpes sucrées')) return "crepesucré.jpg";
                         if (name.includes('crêpes salées')) return "https://images.unsplash.com/photo-1515152864197-251f92e37996?q=80&w=1000&auto=format&fit=crop";
 
                         // Others
-                        if (name.includes('shisha') || name.includes('chicha')) return "https://images.unsplash.com/photo-1541334968504-74ef4f141154?q=80&w=1000&auto=format&fit=crop";
+                        if (name.includes('midway complet')) return "chichamidway.jpg";
+                        if (name.includes('shisha') || name.includes('chicha')) return "chicha.jpg";
                         if (name.includes('petit déjeuner')) return "breakfast.png";
                         if (name.includes('banana split')) return "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=1000&auto=format&fit=crop";
 
@@ -158,11 +163,11 @@ const db = new sqlite3.Database(dbPath, (err) => {
                             "viennoiserie": "croissant.png",
                             "hot-drinks": "espresso.png",
                             "juices": "juice.png",
-                            "smoothies": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?q=80&w=1000&auto=format&fit=crop",
-                            "crepes-sweet": "https://images.unsplash.com/photo-1519676867240-f031ee04a703?q=80&w=1000&auto=format&fit=crop",
+                            "smoothies": "pina colada.jpg",
+                            "crepes-sweet": "crepesucré.jpg",
                             "savory-food": "https://images.unsplash.com/photo-1473093226795-af9932fe5856?q=80&w=1000&auto=format&fit=crop",
-                            "desserts": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=1000&auto=format&fit=crop",
-                            "shisha": "https://images.unsplash.com/photo-1541334968504-74ef4f141154?q=80&w=1000&auto=format&fit=crop"
+                            "desserts": "gateau.jpg",
+                            "shisha": "chicha.jpg"
                         };
                         return catMapping[catId] || "espresso.png";
                     };
