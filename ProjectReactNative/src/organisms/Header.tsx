@@ -6,7 +6,7 @@ interface HeaderProps {
   greeting?: string;
 }
 
-export default function Header({ location = "Jakarta, Indonesia", greeting = "Good morning, elloumi" }: HeaderProps) {
+export default function Header({ location = "Sfax, Tunisia", greeting = "Good morning, Elloumi" }: HeaderProps) {
   return (
     <View style={styles.header}>
       <Image

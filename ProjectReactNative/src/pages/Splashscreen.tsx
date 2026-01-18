@@ -12,10 +12,7 @@ const Splashscreen = () => {
     const navigation = useNavigation<SplashscreenNavigationProp>()
     const { isAuthenticated } = useAuth()
 
-    // Since this component is now inside the Public Stack of App.tsx,
-    // it will only be rendered when isAuthenticated is false.
-    // If isAuthenticated becomes true, React Navigation will automatically
-    // switch to the Private Stack (Tabs).
+    
 
     return (
         <View style={{ flex: 1 }}>

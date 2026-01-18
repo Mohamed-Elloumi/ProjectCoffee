@@ -22,7 +22,7 @@ function ProfileScreen() {
 
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
 
-  // Données profil (exemple statique / prêt à être branché API)
+  
   const [firstName] = useState("elloumi");
   const [lastName] = useState("Elloumi");
   const [phone] = useState("+216 58125240");
